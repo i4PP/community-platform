@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Algoritmiek/Magezijn/.idea/.idea.Magezijn/.idea/sonarlint/securityhotspotstore
+/Algoritmiek/Magezijn/.idea/.idea.Magezijn/.idea/sonarlint/issuestore

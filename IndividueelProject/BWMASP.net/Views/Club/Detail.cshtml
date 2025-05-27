@@ -1,0 +1,84 @@
+﻿@model ClubDetailViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>@Model.Name</h2>
+    <div>
+        @if (TempData["Error"] != null)
+        {
+            <p class="text-danger">@TempData["Error"]</p>
+        }
+    </div>
+
+@{
+    var userId = Context.Session.GetInt32("UserId");
+    var user = Model.Members.FirstOrDefault(m => m.UserId == userId);
+    var userRole = user?.RoleId;
+}
+
+@if (user != null && (userRole == 1 || userRole == 2))
+{
+    <div class="mb-3">
+        <a class="btn btn-primary me-2" asp-controller="Club" asp-action="CreateInvite" asp-route-ClubId="@Model.ClubId">Create Invite Link</a>
+        <a class="btn btn-secondary" asp-controller="Club" asp-action="ClubInvitesCodes" asp-route-ClubId="@Model.ClubId">Club Invites Codes</a>
+    </div>
+}
+    <div class="mb-3">
+        <a class="btn btn-primary me-2" asp-controller="Club" asp-action="Chat" asp-route-ClubId="@Model.ClubId">Club chat</a>
+    </div>
+
+<div class="mb-4">
+    <p><strong>Description:</strong> @Model.Desc</p>
+    <p><strong>Location:</strong> @Model.Land</p>
+    <p><strong>Created At:</strong> @Model.CreatedAt.Year-@Model.CreatedAt.Month-@Model.CreatedAt.Day</p>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            @if (userRole == 1 || userRole == 2)
+            {
+                <th>Change Role</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>@member.Username</td>
+                <td>@member.RoleName</td>
+                @if ((userRole == 1 || userRole == 2) && member.RoleId != 1)
+                {
+                    <td class="w-25">
+                        <form class="row" method="post" asp-controller="Club" asp-action="ChangeRole" asp-route-ClubId="@Model.ClubId" asp-route-UserId="@member.UserId">
+                            <div class="col-md-6">
+                                <select name="RoleId" class="form-select">
+                                    @foreach (var role in Model.Roles)
+                                    {
+                                        <option value="@role.RoleId">@role.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary">Change Role</button>
+                            </div>
+                        </form>
+                    </td>
+                }
+                @if (member.RoleId == 1 && (userRole == 1 || userRole == 2))
+                {
+                    <td>Club owner</td>
+                }
+           
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

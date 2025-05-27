@@ -1,0 +1,46 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.text-truncate-three-lines {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.thread-container {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.thread-container:hover {
+    background-color: #FaFaFa; /* Change this to the desired hover color */
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2); /* Adjust the shadow as needed */
+}
+
+pre {
+    white-space: pre-wrap;
+}
+.indexBG {
+
+    background: #ffffff url(../media/indexBG.jpg) no-repeat !important;
+}

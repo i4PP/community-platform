@@ -1,0 +1,29 @@
+﻿@model JoinClubViewModel
+
+@{
+    ViewBag.Title = "Join Club";
+    Layout = "_Layout";
+}
+
+
+<div class="container w-75">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">Join Club</h1>
+            @if (TempData["Error"] != null)
+            {
+                <p class="text-danger">@TempData["Error"]</p>
+            }
+            <form method="post" asp-action="JoinClub">
+                <div class="mb-3">
+                    <label for="inviteCode" class="form-label">Club invite code</label>
+                    <input asp-for="InviteCode" class="form-control"  type="text"/>
+                    <span asp-validation-for="InviteCode" class="text-danger"></span>
+                </div>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-primary">Join</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

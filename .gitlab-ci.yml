@@ -1,0 +1,24 @@
+stages:
+    - sonarqube-check
+
+sonarqube-check:
+  stage: sonarqube-check
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${GL_KEY}"
+    paths:
+      - .sonar/cache
+  script: 
+    - dotnet tool install --global coverlet.console
+    - export PATH="$PATH:$HOME/.dotnet/tools"
+    - cd "IndividueelProject"
+    - dotnet sonarscanner begin /k:"S2-G02-Abdulmajid-Qaleia" /d:sonar.token="sqp_c2461e391dc812c72966d6eb80e5f1031b20be10" /d:sonar.host.url="https://sq.robben.cloud" /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml"
+    - dotnet build --no-incremental
+    - dotnet test --no-build --collect:"XPlat Code Coverage"
+    - coverlet ./BMWTests/bin/Debug/net8.0/BMWTests.dll --target "dotnet" --targetargs "test --no-build" -f opencover -o coverage.opencover.xml
+    - dotnet sonarscanner end /d:sonar.token="sqp_c2461e391dc812c72966d6eb80e5f1031b20be10"
+
+  allow_failure: true

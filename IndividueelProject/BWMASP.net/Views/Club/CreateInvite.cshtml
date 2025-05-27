@@ -1,0 +1,35 @@
+﻿@model InviteViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+<div>
+    @if (TempData["Error"] != null)
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
+</div>
+
+<form method="post" asp-controller="Club" class="w-50" asp-action="CreateInvite">
+    <div class="mb-3">
+        <label for="MaxUses" class="form-label">Max uses</label>
+        <input asp-for="MaxUses" type="number" class="form-control" />
+        <span asp-validation-for="MaxUses" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="ExpirationDate" class="form-label">Expiration date</label>
+        <input asp-for="ExpirationDate" type="date" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+        
+    </div>
+    <div class="mb-3">
+        <label for="ExpirationTime" class="form-label">Expiration time</label>
+        <input asp-for="ExpirationTime" type="time" class="form-control" />
+        <span asp-validation-for="ExpirationTime" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="ClubId" />
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

@@ -1,0 +1,67 @@
+﻿@model ThreadViewModel
+
+<h1>Create a new thread</h1>
+
+<div>
+    @if(TempData["Error"] != null)
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+</div>
+
+
+
+<div>
+    <form method="post" asp-action="Create" onsubmit="setCreatedAt()">
+        <div class="d-flex flex-row justify-content-between">
+            
+            <div>
+                <h5>Title</h5>
+                <input class="form-control" style="width: 350px; height: 50px;"  asp-for="Title" type="text"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        
+            <div class=" ">
+                <h5>Topic</h5>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" asp-for="TopicId">
+                    <option selected>Open this select menu</option>
+                    @if (Model.Topics != null)
+                    {
+                        @foreach (var topic in Model.Topics)
+                        {
+                            <option value="@topic.TopicId">@topic.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="TopicId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div>
+            <h5>Content</h5>
+            <textarea asp-for="Text" class="w-100" rows="10" cols="175"></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+        </div>
+        <div>
+            <input type="hidden" asp-for="CreatedAt" id="currentDate"/>
+        </div>
+
+
+        <input type="submit" class="btn btn-primary mt-4 float-end m-0 " value="Create"/>
+    </form>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        function setCreatedAt() {
+            var currentDate = new Date().toISOString();
+
+            document.getElementById('currentDate').value = currentDate;
+        }
+    </script>
+}

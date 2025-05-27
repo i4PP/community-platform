@@ -1,0 +1,46 @@
+﻿@model ThreadViewModel
+
+@{
+    ViewBag.Title = "ReadMore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <form method="post" asp-controller="Thread" asp-action="Edit">
+        <div class="d-flex flex-row justify-content-between">
+
+            <div>
+                <h5>Title</h5>
+                <input class="form-control" style="width: 350px; height: 50px;" asp-for="Title" type="text" value="@Model.Title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class=" ">
+                <h5>Topic</h5>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" asp-for="TopicId">
+                    <option selected>Open this select menu</option>
+                    @if (Model.Topics != null)
+                    {
+                        @foreach (var topic in Model.Topics)
+                        {
+                            <option value="@topic.TopicId">@topic.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="TopicId" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div>
+            <h5>Content</h5>
+            <textarea asp-for="Text" class="w-100" rows="10" cols="175" value="@Model.Text" ></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+        </div>
+        <div>
+            <input type="hidden" asp-for="ThreadId" value="@Model.ThreadId"/>
+        </div>
+
+        <input type="submit" class="btn btn-primary mt-4 float-end m-0 " value="submit" />
+    </form>
+</div>
+
+

@@ -1,0 +1,18 @@
+﻿@model CreateCommentViewModel
+
+<div class="mt-4"> 
+    <form method="post" asp-action="CreateComment" onsubmit="setCommentTimestamp()">
+        <div class="form-outline container ">
+            <textarea class="form-control" id="commentInput" rows="2.5" placeholder="Add comment" asp-for="Text" onfocus="showCommentControls()" onblur="hideCommentControls()"></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+            <p class="text-danger">@TempData["1"]</p>
+        </div>
+        <div id="commentControls" class="mt-2 float-end mb-3" style="display:block;"> <!-- Add margin top -->
+            <button type="submit" class="btn btn-primary me-2">Submit</button> <!-- Add margin right -->
+        </div>
+        <input asp-for="ThreadId" type="hidden" />
+        <input asp-for="ParentId" type="hidden" />
+        <input asp-for="DateCreated" id="commentTimestamp" type="hidden" />
+    </form>
+</div>
+

@@ -1,0 +1,111 @@
+﻿@using BMWDomain.Entities
+@model ClubMessages
+
+@{
+    ViewBag.Title = "Club Chat";
+    Layout = "_Layout";
+}
+
+<style>
+ .message-container {
+        padding: 5px;
+        margin: 5px;
+        border-radius: 10px;
+        max-width: 70%;
+    }
+
+    .message-container.current {
+        margin-left: auto;
+    }
+
+    .message-container.other {
+        margin-right: auto;
+    }
+
+    .message-text {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+    }
+
+    .message-container.other .message-text {
+        background-color: #717171;
+        color: white;
+    }
+
+    .message-container.current .message-text {
+        background-color:  #0165b5;
+        color: white;
+    }
+
+    .username {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="container">
+    <div class="row p-1">
+        <div class="col-12">
+            <ul id="messagesList" style="list-style-type: none; padding: 0;">
+                @{
+                    string? lastUsername = null;
+                }
+                @foreach (var message in Model.Messages)
+                {
+                    bool isSameUser = message.Username == lastUsername;
+                    lastUsername = message.Username;
+                
+                    <li>
+                        <div class="message-container @(message.Username == Context.Session.GetString("UserName") ? "current" : "other")">
+                            <div class="row">
+                                <div class="col-12">
+                                    @if (!isSameUser)
+                                    {
+                                        <span class="username">@message.Username</span>
+                                    }
+                                </div>
+                                <div class="col">
+                                    <div class="message-text">
+                                        <span>@message.Message</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-12">
+            <div class="input-group">
+                <input type="hidden" id="userInput" value="@Context.Session.GetInt32("UserId")" />
+                <input type="hidden" id="Username" value="@Context.Session.GetString("UserName")" />
+                <input type="hidden" id="clubId" value="@Model.ClubId" />
+                <input type="text" class="form-control" id="messageInput" placeholder="Type your message here" />
+                <button class="btn btn-primary" type="button" id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
+<script>
+    // Reset input field after sending message
+    document.getElementById('sendButton').addEventListener('click', function() {
+        var messageInput = document.getElementById('messageInput');
+        messageInput.value = ''; // Clear input field
+    });
+</script>
+
+<script>
+    function scrollToBottom() {
+        window.scroll(0, document.body.scrollHeight);   
+    }
+    history.scrollRestoration = "manual";
+    window.onload = scrollToBottom;
+</script>

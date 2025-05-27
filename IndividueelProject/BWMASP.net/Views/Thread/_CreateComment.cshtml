@@ -1,0 +1,40 @@
+﻿@model CreateCommentViewModel
+
+<div class="mt-4"> 
+    <form method="post" asp-action="CreateComment" onsubmit="setCreatedAt()">
+        <div class="form-outline container ">
+            <textarea class="form-control" id="textAreaExample" rows="2.5" placeholder="Add comment" asp-for="Text" onfocus="showButtons()" onblur="hideButtons()"></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+            <p class="text-danger">@TempData["empty"]</p>
+            <div id="commentButtons" class="mt-2 float-end" style="display:none;"> <!-- Add margin top -->
+                <button type="submit" class="btn btn-primary me-2">Submit</button> <!-- Add margin right -->
+                <button type="button" class="btn btn-secondary" onclick="cancelComment()">Cancel</button>
+            </div>
+        </div>
+        <input asp-for="ThreadId" type="hidden" />
+        <input asp-for="DateCreated" id="currentDate" type="hidden" />
+        <input asp-for="ParentId" value="-1" type="hidden"/>
+    </form>
+</div>
+
+<script>
+    function showButtons() {
+        document.getElementById('commentButtons').style.display = 'block';
+    }
+
+    function hideButtons() {
+        if (document.getElementById('textAreaExample').value === '') {
+            document.getElementById('commentButtons').style.display = 'none';
+        }
+    }
+
+    function cancelComment() {
+        document.getElementById('textAreaExample').value = ''; 
+        hideButtons(); // Hide buttons
+    }
+
+    function setCreatedAt() {
+        var currentDate = new Date().toISOString();
+        document.getElementById('currentDate').value = currentDate;
+    }
+</script>

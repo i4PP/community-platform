@@ -1,0 +1,37 @@
+﻿@model List<InviteWithUserViewModel>
+
+@{
+    ViewBag.Title = "Club Invites Codes";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+    @if (TempData["Error"] != null)
+    {
+        <p class="text-danger">@TempData["Error"]</p>
+    }
+
+    <div class="row">
+        @if (Model.Count == 0)
+        {
+            <p>No invites found</p>
+        }
+        else
+        {
+            <p>Invites Codes: @Model.Count</p>
+        }
+
+        @foreach (var invite in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Creator: @invite.UserName</h5>
+                        <p class="card-text"><strong>Code:</strong> @invite.Code</p>
+                        <p class="card-text"><strong>Max Uses:</strong> @invite.MaxUses</p>
+                        <p class="card-text"><strong>Expiration Date:</strong> @invite.ExpirationDate</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>

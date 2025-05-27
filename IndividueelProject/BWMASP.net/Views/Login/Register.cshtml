@@ -1,0 +1,43 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row justify-content-center">
+    <h1 class="text-center">Register</h1>
+    <div class="col-lg-6">
+        @if (TempData["Error"] != null)
+        {
+            <p class="text-danger">@TempData["Error"]</p>
+        }
+
+        <form method="post" asp-action="Register" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input asp-for="UserName" type="text" class="form-control" id="username" required>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" id="email" required>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control" id="password" required>
+                <div id="password-strength" class="form-text"></div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="ConfirmedPassword" type="password" class="form-control" id="confirmPassword" required>
+                <div id="password-match" class="form-text"></div>
+                <span asp-validation-for="ConfirmedPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>
